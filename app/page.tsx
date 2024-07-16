@@ -1,5 +1,6 @@
 'use client'
 
+import { TextInput } from "@mantine/core";
 import { useState } from "react";
 import { WebMidi } from "webmidi";
 
@@ -75,7 +76,12 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-around p-24">
       <p className="text-7xl">Play the Note</p>
       <p className="text-8xl" style={{color: color()}}>{noteToGuess}</p>
-      <input onKeyDown={noteOn}></input>
+      <TextInput
+        label="Input label"
+        description="Input description"
+        placeholder="Input placeholder"
+        onKeyDown={noteOn}
+      />
     </main>
   );
 }
