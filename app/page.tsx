@@ -1,12 +1,14 @@
 'use client'
 
-import { TextInput } from "@mantine/core";
+import { AppShell, Burger, Group, TextInput, Title } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import { WebMidi } from "webmidi";
 
 // awesome panda, macovsky-ruby, gozilla
 
 export default function Home() {
+  const [opened, { toggle }] = useDisclosure();
   const [enabled, setEnabled] = useState(false);
   const [noteToGuess, setNoteToGuess] = useState('A');
   const [correctAnswer, setCorrectAnswer] = useState(false)
@@ -73,15 +75,40 @@ export default function Home() {
   }
   
   return (
-    <main className="flex min-h-screen flex-col items-center justify-around p-24">
-      <p className="text-7xl">Play the Note</p>
-      <p className="text-8xl" style={{color: color()}}>{noteToGuess}</p>
-      <TextInput
-        label="Input label"
-        description="Input description"
-        placeholder="Input placeholder"
-        onKeyDown={noteOn}
-      />
-    </main>
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{
+        width: 300,
+        breakpoint: 'sm',
+        collapsed: { mobile: !opened },
+      }}
+      padding="md"
+    >
+      <AppShell.Header>
+          <Group h={'100%'} px="md">
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+            />
+            <Title order={1}>Piano Games</Title>
+          </Group>
+        
+      </AppShell.Header>
+
+      <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+
+      <AppShell.Main>
+        <p className="text-7xl">Play the Note</p>
+        <p className="text-8xl" style={{color: color()}}>{noteToGuess}</p>
+        <TextInput
+          label="Input label"
+          description="Input description"
+          placeholder="Input placeholder"
+          onKeyDown={noteOn}
+        />
+      </AppShell.Main>
+    </AppShell>
   );
 }
