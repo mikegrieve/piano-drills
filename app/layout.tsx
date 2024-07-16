@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
-import '@mantine/core/styles.css';
+import "@mantine/core/styles.css";
 
 export const metadata: Metadata = {
   title: "Learn Piano",
