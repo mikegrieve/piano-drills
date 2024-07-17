@@ -1,7 +1,7 @@
 "use client";
 
 import PianoGame from "@/components/PianoGame";
-import { AppShell, Burger, Group, Title } from "@mantine/core";
+import { AppShell, Burger, Group, Image, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 export default function Home() {
@@ -20,6 +20,7 @@ export default function Home() {
       <AppShell.Header>
         <Group h={"100%"} px="md">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          <Image src="piano-games.png" alt="logo" h={"80%"} />
           <Title order={1}>Piano Games</Title>
         </Group>
       </AppShell.Header>
