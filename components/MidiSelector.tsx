@@ -3,6 +3,7 @@ import { WebMidi } from "webmidi";
 
 export default function MidiSelector({ noteOn }: { noteOn: any }) {
   const [enabled, setEnabled] = useState(false);
+  const [device, setDevice] = useState<string | null>(null);
   // Enable WEBMIDI.js and trigger the onEnabled() function when ready
   if (!enabled) {
     WebMidi.enable().then(onEnabled);
@@ -17,7 +18,7 @@ export default function MidiSelector({ noteOn }: { noteOn: any }) {
       return;
     } else {
       WebMidi.inputs.forEach((device, index) => {
-        console.log(`${index}: ${device.name}`);
+        setDevice(device.name);
       });
     }
 
@@ -26,5 +27,5 @@ export default function MidiSelector({ noteOn }: { noteOn: any }) {
     mySynth.channels[1].addListener("noteon", noteOn);
   }
 
-  return <div>Midi Selector</div>;
+  return <div>Midi: {device}</div>;
 }
