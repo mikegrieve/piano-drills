@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
 import "@mantine/core/styles.css";
+import Shell from "@/components/Shell";
 
 export const metadata: Metadata = {
   title: "Learn Piano",
@@ -28,7 +29,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <Shell>{children}</Shell>
+        </MantineProvider>
       </body>
     </html>
   );
