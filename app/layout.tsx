@@ -5,8 +5,8 @@ import "@mantine/core/styles.css";
 import Shell from "@/components/Shell";
 
 export const metadata: Metadata = {
-  title: "Learn Piano",
-  description: "A place to learn piano",
+  title: "Piano Games",
+  description: "Improve piano skills",
 };
 
 const theme = createTheme({
