@@ -2,8 +2,7 @@ import { Center, Container, TextInput } from "@mantine/core";
 import { useRef, useState } from "react";
 import MidiSelector from "./MidiSelector";
 
-export default function PianoGame() {
-  const [devMode, setDevMode] = useState(true);
+export default function PianoGame({ devMode }: { devMode: boolean }) {
   const [noteToGuess, _setNoteToGuess] = useState("A");
   const [correctAnswer, setCorrectAnswer] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState(false);
@@ -53,13 +52,16 @@ export default function PianoGame() {
   }
   return (
     <Container>
-      <MidiSelector noteOn={noteOn} />
+      {devMode ? (
+        <TextInput w="40px" onKeyDown={noteOn}></TextInput>
+      ) : (
+        <MidiSelector noteOn={noteOn} />
+      )}
       <Center>
         <span className="text-9xl" style={{ color: color() }}>
           {noteToGuess}
         </span>
       </Center>
-      {devMode && <TextInput w="40px" onKeyDown={noteOn}></TextInput>}
     </Container>
   );
 }
