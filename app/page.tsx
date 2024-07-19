@@ -1,5 +1,12 @@
-import { Title } from "@mantine/core";
+import { Container, Text, Title } from "@mantine/core";
 
 export default function Home() {
-  return <Title>This is the home page</Title>;
+  return (
+    <Container>
+      <Title>Welcome to Piano Games</Title>
+      <Text>
+        Connect your digital piano and play games to hone your skills.
+      </Text>
+    </Container>
+  );
 }
