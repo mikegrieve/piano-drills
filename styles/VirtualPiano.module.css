@@ -1,0 +1,41 @@
+.stylesContainer {
+  position: relative;
+  display: flex;
+  width: 350px;
+}
+.whiteContainer {
+  display: flex;
+}
+.stylesWhite {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  border: 1px black solid;
+  border-radius: 5px;
+  height: 180px;
+  width: 50px;
+}
+.allBlackContainer {
+  display: flex;
+  position: absolute;
+}
+.blackContainer1 {
+  display: flex;
+  justify-content: space-evenly;
+  width: 150px;
+}
+.blackContainer2 {
+  display: flex;
+  justify-content: space-evenly;
+  width: 200px;
+}
+.stylesBlack {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  border: 1px black solid;
+  border-radius: 5px;
+  color: white;
+  height: 120px;
+  width: 30px;
+}

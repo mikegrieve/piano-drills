@@ -2,6 +2,7 @@ import { Button, Center, Container, TextInput, Title } from "@mantine/core";
 import { useRef, useState } from "react";
 import MidiSelector from "./MidiSelector";
 import Timer from "./Timer";
+import VirtualPiano from "./VirtualPiano";
 
 export default function PianoGame({ devMode }: { devMode: boolean }) {
   const [score, setScore] = useState(0);
@@ -11,6 +12,7 @@ export default function PianoGame({ devMode }: { devMode: boolean }) {
     noteToGuessRef.current = note;
     _setNoteToGuess(note);
   }
+  const [playedNotes, setPlayedNotes] = useState<Set<string>>(new Set());
   const [gameOver, _setGameOver] = useState(false);
   const gameOverRef = useRef(gameOver);
   function setGameOver(gameOver: boolean) {
@@ -41,8 +43,14 @@ export default function PianoGame({ devMode }: { devMode: boolean }) {
       return;
     }
 
-    const playedNote = devMode ? event.key.toUpperCase() : event.note.name; // midi piano or keyboard (debugging)
+    let playedNote: string = devMode
+      ? event.key.toUpperCase()
+      : event.note.name; // midi piano or keyboard (debugging)
+    if (!devMode && event.note.accidental) {
+      playedNote = playedNote + event.note.accidental;
+    }
     console.log(playedNote);
+    setPlayedNotes((prev) => new Set(prev.add(playedNote)));
 
     if (playedNote === noteToGuessRef.current) {
       const randomInt = Math.floor(Math.random() * notes.length);
@@ -59,6 +67,18 @@ export default function PianoGame({ devMode }: { devMode: boolean }) {
         setWrongAnswer(false);
       }, 500);
     }
+  }
+
+  function noteOff(event: any) {
+    const note = event.note;
+    let playedNote = note.name;
+    if (note.accidental) {
+      playedNote += note.accidental;
+    }
+    setPlayedNotes((prev) => {
+      prev.delete(playedNote);
+      return new Set(prev);
+    });
   }
 
   function startNewGame() {
@@ -80,14 +100,17 @@ export default function PianoGame({ devMode }: { devMode: boolean }) {
         {devMode ? (
           <TextInput w="40px" onKeyDown={noteOn}></TextInput>
         ) : (
-          <MidiSelector noteOn={noteOn} />
+          <MidiSelector noteOn={noteOn} noteOff={noteOff} />
         )}
-        <Timer seconds={10} onTimeout={() => setGameOver(true)} />
+        <Timer seconds={60} onTimeout={() => setGameOver(true)} />
         <Title>Score: {score}</Title>
         <Center>
           <span className="text-9xl" style={{ color: color() }}>
             {noteToGuess}
           </span>
+        </Center>
+        <Center>
+          <VirtualPiano notesPressed={playedNotes} />
         </Center>
       </Container>
     );

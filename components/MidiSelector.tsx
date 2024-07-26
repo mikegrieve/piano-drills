@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { WebMidi } from "webmidi";
 
-export default function MidiSelector({ noteOn }: { noteOn: any }) {
+export default function MidiSelector({
+  noteOn,
+  noteOff,
+}: {
+  noteOn: any;
+  noteOff: any;
+}) {
   const [enabled, setEnabled] = useState(false);
   const [device, setDevice] = useState<string | null>(null);
   // Enable WEBMIDI.js and trigger the onEnabled() function when ready
@@ -25,6 +31,7 @@ export default function MidiSelector({ noteOn }: { noteOn: any }) {
     const mySynth = WebMidi.inputs[0];
 
     mySynth.channels[1].addListener("noteon", noteOn);
+    mySynth.channels[1].addListener("noteoff", noteOff);
   }
 
   return <div>Midi: {device}</div>;
