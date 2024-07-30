@@ -1,4 +1,4 @@
-import { Button, Center, Container, TextInput, Title } from "@mantine/core";
+import { Button, Center, Container, Stack, Title } from "@mantine/core";
 import { useRef, useState } from "react";
 import MidiSelector from "./MidiSelector";
 import Timer from "./Timer";
@@ -86,33 +86,35 @@ export default function PianoGame({ devMode }: { devMode: boolean }) {
     setGameOver(false);
   }
 
-  if (gameOver) {
-    return (
-      <Container>
-        <Title>Game Over</Title>
-        <Title>Score: {score}</Title>
-        <Button onClick={startNewGame}>Retry</Button>
-      </Container>
-    );
-  } else {
-    return (
-      <Container>
-        {devMode ? (
-          <TextInput w="40px" onKeyDown={noteOn}></TextInput>
+  return (
+    <Container>
+      <MidiSelector noteOn={noteOn} noteOff={noteOff} />
+      <Stack h={600} align="stretch" justify="space-around">
+        {gameOver ? (
+          <Container>
+            <Title>Game Over</Title>
+            <Title ta="center">Score: {score}</Title>
+            <Center>
+              <Button onClick={startNewGame}>Retry</Button>
+            </Center>
+          </Container>
         ) : (
-          <MidiSelector noteOn={noteOn} noteOff={noteOff} />
+          <>
+            <div>
+              <Timer seconds={20} onTimeout={() => setGameOver(true)} />
+              <Title>Score: {score}</Title>
+            </div>
+            <Center>
+              <span className="text-9xl" style={{ color: color() }}>
+                {noteToGuess}
+              </span>
+            </Center>
+            <Center>
+              <VirtualPiano notesPressed={playedNotes} />
+            </Center>
+          </>
         )}
-        <Timer seconds={60} onTimeout={() => setGameOver(true)} />
-        <Title>Score: {score}</Title>
-        <Center>
-          <span className="text-9xl" style={{ color: color() }}>
-            {noteToGuess}
-          </span>
-        </Center>
-        <Center>
-          <VirtualPiano notesPressed={playedNotes} />
-        </Center>
-      </Container>
-    );
-  }
+      </Stack>
+    </Container>
+  );
 }
