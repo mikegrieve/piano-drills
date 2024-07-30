@@ -6,7 +6,7 @@ import VirtualPiano from "./VirtualPiano";
 
 export default function PianoGame({ devMode }: { devMode: boolean }) {
   const [score, setScore] = useState(0);
-  const [noteToGuess, _setNoteToGuess] = useState("A");
+  const [noteToGuess, _setNoteToGuess] = useState(() => getRandomNote(""));
   const noteToGuessRef = useRef(noteToGuess);
   function setNoteToGuess(note: string) {
     noteToGuessRef.current = note;
@@ -22,7 +22,12 @@ export default function PianoGame({ devMode }: { devMode: boolean }) {
   const [correctAnswer, setCorrectAnswer] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState(false);
 
-  const notes = ["A", "B", "C", "D", "E", "F", "G"];
+  function getRandomNote(currNote: string) {
+    const notes = new Set(["A", "B", "C", "D", "E", "F", "G"]);
+    notes.delete(currNote);
+    const randomInt = Math.floor(Math.random() * notes.size);
+    return Array.from(notes)[randomInt];
+  }
 
   function color() {
     if (correctAnswer) {
@@ -49,15 +54,13 @@ export default function PianoGame({ devMode }: { devMode: boolean }) {
     if (!devMode && event.note.accidental) {
       playedNote = playedNote + event.note.accidental;
     }
-    console.log(playedNote);
     setPlayedNotes((prev) => new Set(prev.add(playedNote)));
 
     if (playedNote === noteToGuessRef.current) {
-      const randomInt = Math.floor(Math.random() * notes.length);
       setCorrectAnswer(true);
       setScore((prevScore) => prevScore + 1);
       setTimeout(() => {
-        setNoteToGuess(notes[randomInt]);
+        setNoteToGuess(getRandomNote(noteToGuessRef.current));
         setCorrectAnswer(false);
       }, 200);
     } else {
