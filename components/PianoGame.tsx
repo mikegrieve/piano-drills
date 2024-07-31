@@ -1,24 +1,14 @@
 import { Button, Center, Container, Stack, Title } from "@mantine/core";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import MidiSelector from "./MidiSelector";
 import Timer from "./Timer";
 import VirtualPiano from "./VirtualPiano";
 
 export default function PianoGame() {
   const [score, setScore] = useState(0);
-  const [noteToGuess, _setNoteToGuess] = useState(() => getRandomNote(""));
-  const noteToGuessRef = useRef(noteToGuess);
-  function setNoteToGuess(note: string) {
-    noteToGuessRef.current = note;
-    _setNoteToGuess(note);
-  }
+  const [noteToGuess, setNoteToGuess] = useState(() => getRandomNote(""));
   const [playedNotes, setPlayedNotes] = useState<Set<string>>(new Set());
-  const [gameOver, _setGameOver] = useState(false);
-  const gameOverRef = useRef(gameOver);
-  function setGameOver(gameOver: boolean) {
-    gameOverRef.current = gameOver;
-    _setGameOver(gameOver);
-  }
+  const [gameOver, setGameOver] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState(false);
 
@@ -39,44 +29,26 @@ export default function PianoGame() {
     }
   }
 
-  function noteOn(event: any) {
-    if (correctAnswer || wrongAnswer || gameOverRef.current) {
-      // FIX THIS: does not work
-      return;
-    }
-
-    let playedNote: string = event.note.name;
-    if (event.note.accidental) {
-      playedNote = playedNote + event.note.accidental;
-    }
-    setPlayedNotes((prev) => new Set(prev.add(playedNote)));
-
-    if (playedNote === noteToGuessRef.current) {
+  if (!gameOver && !correctAnswer && !wrongAnswer && playedNotes.size > 0) {
+    const notesToGuess = new Set([noteToGuess]);
+    if (playedNotes.symmetricDifference(notesToGuess).size === 0) {
       setCorrectAnswer(true);
-      setScore((prevScore) => prevScore + 1);
+      setScore(score + 1);
       setTimeout(() => {
-        setNoteToGuess(getRandomNote(noteToGuessRef.current));
+        setPlayedNotes((prev) => {
+          prev.delete(noteToGuess);
+          return new Set(prev);
+        });
+        setNoteToGuess(getRandomNote(noteToGuess));
         setCorrectAnswer(false);
       }, 200);
     } else {
       setWrongAnswer(true);
-      setScore((prevScore) => prevScore - 1);
+      setScore(score - 1);
       setTimeout(() => {
         setWrongAnswer(false);
-      }, 500);
+      }, 1000);
     }
-  }
-
-  function noteOff(event: any) {
-    const note = event.note;
-    let playedNote = note.name;
-    if (note.accidental) {
-      playedNote += note.accidental;
-    }
-    setPlayedNotes((prev) => {
-      prev.delete(playedNote);
-      return new Set(prev);
-    });
   }
 
   function startNewGame() {
@@ -86,7 +58,7 @@ export default function PianoGame() {
 
   return (
     <Container>
-      <MidiSelector noteOn={noteOn} noteOff={noteOff} />
+      <MidiSelector setPlayedNotes={setPlayedNotes} />
       <Stack h={600} align="stretch" justify="space-around">
         {gameOver ? (
           <Container>
