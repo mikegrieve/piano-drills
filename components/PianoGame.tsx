@@ -4,7 +4,7 @@ import MidiSelector from "./MidiSelector";
 import Timer from "./Timer";
 import VirtualPiano from "./VirtualPiano";
 
-export default function PianoGame({ devMode }: { devMode: boolean }) {
+export default function PianoGame() {
   const [score, setScore] = useState(0);
   const [noteToGuess, _setNoteToGuess] = useState(() => getRandomNote(""));
   const noteToGuessRef = useRef(noteToGuess);
@@ -40,18 +40,13 @@ export default function PianoGame({ devMode }: { devMode: boolean }) {
   }
 
   function noteOn(event: any) {
-    if (devMode) {
-      event.preventDefault();
-    }
     if (correctAnswer || wrongAnswer || gameOverRef.current) {
       // FIX THIS: does not work
       return;
     }
 
-    let playedNote: string = devMode
-      ? event.key.toUpperCase()
-      : event.note.name; // midi piano or keyboard (debugging)
-    if (!devMode && event.note.accidental) {
+    let playedNote: string = event.note.name;
+    if (event.note.accidental) {
       playedNote = playedNote + event.note.accidental;
     }
     setPlayedNotes((prev) => new Set(prev.add(playedNote)));
