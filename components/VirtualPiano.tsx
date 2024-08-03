@@ -1,11 +1,13 @@
-import { Box, Title } from "@mantine/core";
-
 import styles from "../styles/VirtualPiano.module.css";
+import WhiteKey from "./WhiteKey";
+import BlackKey from "./BlackKey";
 
 export default function VirtualPiano({
   notesPressed,
+  showLabels,
 }: {
   notesPressed: Set<string>;
+  showLabels: boolean;
 }) {
   function keyColor(key: string) {
     if (notesPressed.has(key)) {
@@ -16,50 +18,41 @@ export default function VirtualPiano({
       return "white";
     }
   }
+  const whiteKeys = ["C", "D", "E", "F", "G", "A", "B"];
+  const pairBlackKeys = ["C#", "D#"];
+  const tripleBlackKeys = ["F#", "G#", "A#"];
   return (
     <div className={styles.stylesContainer}>
       <div className={styles.whiteContainer}>
-        <Box bg={keyColor("C")} className={styles.stylesWhite}>
-          <Title>C</Title>
-        </Box>
-        <Box bg={keyColor("D")} className={styles.stylesWhite}>
-          <Title>D</Title>
-        </Box>
-        <Box bg={keyColor("E")} className={styles.stylesWhite}>
-          <Title>E</Title>
-        </Box>
-        <Box bg={keyColor("F")} className={styles.stylesWhite}>
-          <Title>F</Title>
-        </Box>
-        <Box bg={keyColor("G")} className={styles.stylesWhite}>
-          <Title>G</Title>
-        </Box>
-        <Box bg={keyColor("A")} className={styles.stylesWhite}>
-          <Title>A</Title>
-        </Box>
-        <Box bg={keyColor("B")} className={styles.stylesWhite}>
-          <Title>B</Title>
-        </Box>
+        {whiteKeys.map((keyName) => (
+          <WhiteKey
+            key={keyName}
+            keyName={keyName}
+            keyColor={keyColor(keyName)}
+            showLabel={showLabels}
+          />
+        ))}
       </div>
       <div className={styles.allBlackContainer}>
         <div className={styles.blackContainer1}>
-          <Box bg={keyColor("C#")} className={styles.stylesBlack}>
-            <Title order={4}>C#</Title>
-          </Box>
-          <Box bg={keyColor("D#")} className={styles.stylesBlack}>
-            <Title order={4}>D#</Title>
-          </Box>
+          {pairBlackKeys.map((keyName) => (
+            <BlackKey
+              key={keyName}
+              keyName={keyName}
+              keyColor={keyColor(keyName)}
+              showLabel={showLabels}
+            />
+          ))}
         </div>
         <div className={styles.blackContainer2}>
-          <Box bg={keyColor("F#")} className={styles.stylesBlack}>
-            <Title order={4}>F#</Title>
-          </Box>
-          <Box bg={keyColor("G#")} className={styles.stylesBlack}>
-            <Title order={4}>G#</Title>
-          </Box>
-          <Box bg={keyColor("A#")} className={styles.stylesBlack}>
-            <Title order={4}>A#</Title>
-          </Box>
+          {tripleBlackKeys.map((keyName) => (
+            <BlackKey
+              key={keyName}
+              keyName={keyName}
+              keyColor={keyColor(keyName)}
+              showLabel={showLabels}
+            />
+          ))}
         </div>
       </div>
     </div>

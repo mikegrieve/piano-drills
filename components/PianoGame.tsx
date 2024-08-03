@@ -80,7 +80,7 @@ export default function PianoGame() {
               </span>
             </Center>
             <Center>
-              <VirtualPiano notesPressed={playedNotes} />
+              <VirtualPiano notesPressed={playedNotes} showLabels={true} />
             </Center>
           </>
         )}
