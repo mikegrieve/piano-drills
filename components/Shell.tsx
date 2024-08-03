@@ -26,9 +26,9 @@ export default function Shell({
       <AppShell.Header>
         <Group h="100%" px="md">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Image src="piano-games.png" alt="logo" h={"80%"} />
+          <Image src="logo.png" alt="logo" h={"80%"} />
           <Link href="/">
-            <Title order={1}>Piano Games</Title>
+            <Title order={1}>Piano Drills</Title>
           </Link>
         </Group>
       </AppShell.Header>

@@ -5,8 +5,8 @@ import "@mantine/core/styles.css";
 import Shell from "@/components/Shell";
 
 export const metadata: Metadata = {
-  title: "Piano Games",
-  description: "Improve piano skills",
+  title: "Piano Drills",
+  description: "Improve your skills",
 };
 
 const theme = createTheme({
@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <ColorSchemeScript />
-        <link rel="shortcut icon" href="/piano-games.png" />
+        <link rel="shortcut icon" href="/logo.png" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
