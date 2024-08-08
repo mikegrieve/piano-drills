@@ -45,5 +45,9 @@ export default function MidiSelector({
     });
   }
 
-  return <div>Midi: {device}</div>;
+  if (device) {
+    return <div>Midi: {device}</div>;
+  } else {
+    return <div>No device detected</div>;
+  }
 }

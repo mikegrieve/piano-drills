@@ -1,13 +1,18 @@
-import { Button, Center, Container, Stack, Title } from "@mantine/core";
-import { useState } from "react";
-import MidiSelector from "./MidiSelector";
-import Timer from "./Timer";
-import VirtualPiano from "./VirtualPiano";
+"use client";
 
-export default function PianoGame() {
+import { Button, Center, Container, Stack, Title } from "@mantine/core";
+import { Dispatch, SetStateAction, useState } from "react";
+import Timer from "./Timer";
+
+export default function PianoGame({
+  playedNotes,
+  setPlayedNotes,
+}: {
+  playedNotes: Set<string>;
+  setPlayedNotes: Dispatch<SetStateAction<Set<string>>>;
+}) {
   const [score, setScore] = useState(0);
-  const [noteToGuess, setNoteToGuess] = useState(() => getRandomNote(""));
-  const [playedNotes, setPlayedNotes] = useState<Set<string>>(new Set());
+  const [noteToGuess, setNoteToGuess] = useState("A");
   const [gameOver, setGameOver] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState(false);
@@ -58,8 +63,7 @@ export default function PianoGame() {
 
   return (
     <Container>
-      <MidiSelector setPlayedNotes={setPlayedNotes} />
-      <Stack h={600} align="stretch" justify="space-around">
+      <Stack h={300} align="stretch" justify="space-around">
         {gameOver ? (
           <Container>
             <Title>Game Over</Title>
@@ -78,9 +82,6 @@ export default function PianoGame() {
               <span className="text-9xl" style={{ color: color() }}>
                 {noteToGuess}
               </span>
-            </Center>
-            <Center>
-              <VirtualPiano notesPressed={playedNotes} showLabels={true} />
             </Center>
           </>
         )}
