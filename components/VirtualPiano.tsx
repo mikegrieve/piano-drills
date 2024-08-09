@@ -5,9 +5,11 @@ import BlackKey from "./BlackKey";
 export default function VirtualPiano({
   notesPressed,
   showLabels,
+  useSharps,
 }: {
   notesPressed: Set<string>;
   showLabels: boolean;
+  useSharps: boolean;
 }) {
   function keyColor(key: string) {
     if (notesPressed.has(key)) {
@@ -19,8 +21,8 @@ export default function VirtualPiano({
     }
   }
   const whiteKeys = ["C", "D", "E", "F", "G", "A", "B"];
-  const pairBlackKeys = ["C#", "D#"];
-  const tripleBlackKeys = ["F#", "G#", "A#"];
+  const pairBlackKeys = useSharps ? ["C#", "D#"] : ["Db", "Eb"];
+  const tripleBlackKeys = useSharps ? ["F#", "G#", "A#"] : ["Gb", "Ab", "Bb"];
   return (
     <div className={styles.stylesContainer}>
       <div className={styles.whiteContainer}>

@@ -18,7 +18,7 @@ export default function Shell({
           </Link>
         </Group>
       </AppShell.Header>
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main bg="#f3f8ff">{children}</AppShell.Main>
     </AppShell>
   );
 }

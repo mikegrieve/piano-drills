@@ -1,3 +1,4 @@
+import { Badge } from "@mantine/core";
 import { Dispatch, SetStateAction, useState } from "react";
 import { NoteMessageEvent, WebMidi } from "webmidi";
 
@@ -45,9 +46,9 @@ export default function MidiSelector({
     });
   }
 
-  if (device) {
-    return <div>Midi: {device}</div>;
-  } else {
-    return <div>No device detected</div>;
-  }
+  return (
+    <Badge color={device ? "green" : "red"}>
+      {device ? "Connected" : "Not Connected"}
+    </Badge>
+  );
 }
