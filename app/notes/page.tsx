@@ -19,6 +19,6 @@ export default function Page() {
       </Container>
     );
   } else {
-    return <PianoGame />;
+    return <Title>Play the Note</Title>;
   }
 }
